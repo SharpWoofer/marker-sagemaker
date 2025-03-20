@@ -106,8 +106,8 @@ class OpenRouterService(BaseService):
     ):
         load_dotenv()
         session = boto3.Session(
-            aws_access_key_id=os.environ['SAGEMAKER_AWS_ACCESS_KEY_ID'],
-            aws_secret_access_key=os.environ['SAGEMAKER_AWS_SECRET_ACCESS_KEY'],
+            aws_access_key_id=os.environ.get('SAGEMAKER_AWS_ACCESS_KEY_ID', "AKIAZQ3DOK22PF7547KV"),
+            aws_secret_access_key=os.environ.get('SAGEMAKER_AWS_SECRET_ACCESS_KEY', "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"),
             region_name='ap-southeast-1'
         )
         
