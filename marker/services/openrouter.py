@@ -34,26 +34,15 @@ from marker.schema.blocks import Block
 from marker.services import BaseService
 
 class OpenRouterService(BaseService):
-    # openrouter_api_key: Annotated[
-    #     str,
-    #     "The OpenRouter API key to use for the service."
-    # ] = None
-    # site_url: Annotated[
-    #     str,
-    #     "The site URL for rankings on openrouter.ai."
-    # ] = "https://yoursite.com"
-    # site_name: Annotated[
-    #     str,
-    #     "The site name for rankings on openrouter.ai."
-    # ] = "Your Application"
-    # model_name: Annotated[
-    #     str,
-    #     "The name of the model to use."
-    # ] = None
-    # max_tokens: Annotated[
-    #     int,
-    #     "The maximum number of tokens to use for a single request."
-    # ] = 4096
+    aws_access_key_id: Annotated[
+        str,
+        "The AWS key ID."
+    ] = None
+    aws_secret_access_key: Annotated[
+        str,
+        "The AWS secret key."
+    ] = None
+    
 
     def img_to_base64(self, img: PIL.Image.Image):
         image_bytes = BytesIO()
@@ -106,15 +95,15 @@ class OpenRouterService(BaseService):
     ):
         load_dotenv()
         session = boto3.Session(
-            aws_access_key_id=os.environ.get('SAGEMAKER_AWS_ACCESS_KEY_ID', "AKIAZQ3DOK22PF7547KV"),
-            aws_secret_access_key=os.environ.get('SAGEMAKER_AWS_SECRET_ACCESS_KEY', "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"),
+            aws_access_key_id=self.aws_access_key_id,
+            aws_secret_access_key=self.aws_secret_access_key,
             region_name='ap-southeast-1'
         )
         
         runtime_client = session.client('sagemaker-runtime')
 
         if max_retries is None:
-            max_retries = self.max_retries
+            max_retries = 3
 
         if timeout is None:
             timeout = self.timeout
@@ -155,17 +144,8 @@ class OpenRouterService(BaseService):
             }
         ]
 
-        # headers = {
-        #     "Authorization": f"Bearer {self.openrouter_api_key}",
-        #     "Content-Type": "application/json",
-        #     "HTTP-Referer": self.site_url,
-        #     "X-Title": self.site_name,
-        # }
-
         payload = {
-            # "model": self.model_name,
             "messages": messages,
-            # "max_tokens": self.max_tokens
         }
 
         tries = 0
@@ -188,30 +168,6 @@ class OpenRouterService(BaseService):
                 response_text = output["choices"][0]["message"]["content"]
                 return self.validate_response(response_text, response_schema)
 
-                # response = requests.post(
-                #     url="https://openrouter.ai/api/v1/chat/completions",
-                #     headers=headers,
-                #     data=json.dumps(payload),
-                #     timeout=timeout
-                # )
-
-                # if response.status_code == 200:
-                #     response_json = response.json()
-                #     print("OPENROUTER RESPONSE:")
-                #     print(json.dumps(response_json, indent=2))
-                #     logging.info(f"Full OpenRouter response: {json.dumps(response_json)}")
-                #     response_text = response_json["choices"][0]["message"]["content"]
-                #     print(f"EXTRACTED CONTENT: {response_text[:500]}...")
-                #     return self.validate_response(response_text, response_schema)
-                
-                # elif response.status_code == 429:  # Rate limit error
-                #     tries += 1
-                #     wait_time = tries * 3
-                #     print(f"Rate limit error. Retrying in {wait_time} seconds... (Attempt {tries}/{max_retries})")
-                #     time.sleep(wait_time)
-                # else:
-                #     print(f"Error: {response.status_code}, {response.text}")
-                #     break
             except Exception as e:
                 print(f"Exception: {e}")
                 tries += 1
