@@ -151,9 +151,9 @@ class OpenRouterService(BaseService):
         tries = 0
         while tries < max_retries:
             try:
-                logging.info("Sending request to OpenRouter...")
+                logging.info("Sending request to Sagemaker...")
 
-                logging.info(f"Sending payload to OpenRouter: {json.dumps(payload)[:500]}...")
+                # logging.info(f"Sending payload to OpenRouter: {json.dumps(payload)[:500]}...")
                 payload_json = json.dumps(payload)
                 # Call SageMaker endpoint
                 response = runtime_client.invoke_endpoint(
