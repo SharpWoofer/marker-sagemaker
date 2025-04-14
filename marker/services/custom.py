@@ -152,6 +152,7 @@ Respond only with the JSON schema, nothing else. Do not include ```json, ```, or
 
                 # Parse response
                 response_body = response['Body'].read().decode('utf-8')
+                logging.info("I am using custom.py file")
                 output = json.loads(response_body)
                 response_text = output["choices"][0]["message"]["content"]
                 

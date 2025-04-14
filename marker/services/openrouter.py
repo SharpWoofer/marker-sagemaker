@@ -165,6 +165,7 @@ class OpenRouterService(BaseService):
                 # Parse response
                 response_body = response['Body'].read().decode('utf-8')
                 output = json.loads(response_body)
+                logging.info("I am using openrouter.py file")
                 response_text = output["choices"][0]["message"]["content"]
                 return self.validate_response(response_text, response_schema)
 
