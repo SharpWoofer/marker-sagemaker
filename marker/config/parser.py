@@ -39,7 +39,7 @@ class ConfigParser:
         fn = click.option("--languages", type=str, default=None, help="Comma separated list of languages to use for OCR.")(fn)
 
         # we put common options here
-        fn = click.option("--use_llm", default=False, help="Enable higher quality processing with LLMs.")(fn)
+        fn = click.option("--use_llm", default=True, help="Enable higher quality processing with LLMs.")(fn)
         fn = click.option("--converter_cls", type=str, default=None, help="Converter class to use.  Defaults to PDF converter.")(fn)
         fn = click.option("--llm_service", type=str, default=None, help="LLM service to use - should be full import path, like marker.services.gemini.GoogleGeminiService")(fn)
 
@@ -83,12 +83,12 @@ class ConfigParser:
 
     def get_llm_service(self):
         # Only return an LLM service when use_llm is enabled
-        if not self.cli_options.get("use_llm", False):
-            return None
+        # if not self.cli_options.get("use_llm", False):
+        #     return None
 
         service_cls = self.cli_options.get("llm_service", None)
         if service_cls is None:
-            service_cls = "marker.services.gemini.GoogleGeminiService"
+            service_cls = "marker.services.custom.SagemakerService"
         return service_cls
 
     def get_renderer(self):

@@ -42,6 +42,7 @@ from marker.util import strings_to_classes
 from marker.processors.llm.llm_handwriting import LLMHandwritingProcessor
 from marker.processors.order import OrderProcessor
 from marker.services.gemini import GoogleGeminiService
+from marker.services.custom import SagemakerService
 from marker.processors.line_merge import LineMergeProcessor
 from marker.processors.llm.llm_mathblock import LLMMathBlockProcessor
 
@@ -119,7 +120,7 @@ class PdfConverter(BaseConverter):
             llm_service_cls = strings_to_classes([llm_service])[0]
             llm_service = self.resolve_dependencies(llm_service_cls)
         elif config.get("use_llm", False):
-            llm_service = self.resolve_dependencies(GoogleGeminiService)
+            llm_service = self.resolve_dependencies(SagemakerService)
 
         # Inject llm service into artifact_dict so it can be picked up by processors, etc.
         artifact_dict["llm_service"] = llm_service

@@ -19,7 +19,7 @@ class LLMImageDescriptionProcessor(BaseLLMSimpleBlockProcessor):
         "The prompt to use for generating image descriptions.",
         "Default is a string containing the Gemini prompt."
     ] = """You are a document analysis expert who specializes in creating text descriptions for images.
-You will receive an image of a picture or figure.  Your job will be to create a short description of the image.
+You will receive an image of a picture or figure.  Your job will be to create a description of the image.
 **Instructions:**
 1. Carefully examine the provided image.
 2. Analyze any text that was extracted from within the image.
