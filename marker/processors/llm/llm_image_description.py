@@ -13,7 +13,7 @@ class LLMImageDescriptionProcessor(BaseLLMSimpleBlockProcessor):
     extract_images: Annotated[
         bool,
         "Extract images from the document."
-    ] = True
+    ] = False
     image_description_prompt: Annotated[
         str,
         "The prompt to use for generating image descriptions.",

@@ -30,13 +30,13 @@ class ConfigParser:
         fn = click.option("--config_json", type=str, default=None,
                           help="Path to JSON file with additional configuration.")(fn)
         fn = click.option("--disable_multiprocessing", is_flag=True, default=False, help="Disable multiprocessing.")(fn)
-        fn = click.option("--disable_image_extraction", is_flag=True, default=False, help="Disable image extraction.")(fn)
+        fn = click.option("--disable_image_extraction", is_flag=True, default=True, help="Disable image extraction.")(fn)
 
         # these are options that need a list transformation, i.e splitting/parsing a string
         fn = click.option("--page_range", type=str, default=None,
                           help="Page range to convert, specify comma separated page numbers or ranges.  Example: 0,5-10,20")(
             fn)
-        fn = click.option("--languages", type=str, default=None, help="Comma separated list of languages to use for OCR.")(fn)
+        fn = click.option("--languages", type=str, default="English", help="Comma separated list of languages to use for OCR.")(fn)
 
         # we put common options here
         fn = click.option("--use_llm", default=True, help="Enable higher quality processing with LLMs.")(fn)

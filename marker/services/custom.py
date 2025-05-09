@@ -9,20 +9,22 @@ from PIL import Image
 from pydantic import BaseModel
 import boto3
 from dotenv import load_dotenv
+import os
 import logging
 
 from marker.schema.blocks import Block
 from marker.services import BaseService
 
 class SagemakerService(BaseService):
+    load_dotenv()
     aws_access_key_id: Annotated[
         str,
         "The AWS access key ID."
-    ] = None
+    ] = os.environ.get("SAGEMAKER_AWS_ACCESS_KEY_ID")
     aws_secret_access_key: Annotated[
         str,
         "The AWS secret access key."
-    ] = None
+    ] = os.environ.get("SAGEMAKER_AWS_SECRET_ACCESS_KEY")
     region_name: Annotated[
         str,
         "The AWS region name."
