@@ -17,14 +17,14 @@ from marker.services import BaseService
 
 class SagemakerService(BaseService):
     load_dotenv()
-    # aws_access_key_id: Annotated[
-    #     str,
-    #     "The AWS access key ID."
-    # ] = os.environ.get("SAGEMAKER_AWS_ACCESS_KEY_ID")
-    # aws_secret_access_key: Annotated[
-    #     str,
-    #     "The AWS secret access key."
-    # ] = os.environ.get("SAGEMAKER_AWS_SECRET_ACCESS_KEY")
+    aws_access_key_id: Annotated[
+        str,
+        "The AWS access key ID."
+    ] = os.environ.get("SAGEMAKER_AWS_ACCESS_KEY_ID")
+    aws_secret_access_key: Annotated[
+        str,
+        "The AWS secret access key."
+    ] = os.environ.get("SAGEMAKER_AWS_SECRET_ACCESS_KEY")
     region_name: Annotated[
         str,
         "The AWS region name."
@@ -37,8 +37,6 @@ class SagemakerService(BaseService):
         int,
         "The maximum number of tokens to use for a single request."
     ] = 4096
-
-    _client = None
 
     def img_to_base64(self, img: PIL.Image.Image):
         image_bytes = BytesIO()
@@ -82,14 +80,13 @@ class SagemakerService(BaseService):
                 return None
 
     def get_client(self):
-        if self._client is None:
-            logging.info(f"Initializing Boto3 SageMaker runtime client for region {self.region_name}...")
-            # When running in SageMaker, boto3 will automatically use the endpoint's IAM execution role for credentials.
-            # No keys are needed.
-            session = boto3.Session(region_name=self.region_name)
-            self._client = session.client('sagemaker-runtime')
-            logging.info("Boto3 client initialized.")
-        return self._client
+        load_dotenv()
+        session = boto3.Session(
+            aws_access_key_id=self.aws_access_key_id,
+            aws_secret_access_key=self.aws_secret_access_key,
+            region_name=self.region_name
+        )
+        return session.client('sagemaker-runtime')
 
     def __call__(
             self,
