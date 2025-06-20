@@ -1,6 +1,6 @@
 # Marker-SageMaker: Supercharged Document Conversion
 
-This is a fork of the original **[marker](https://github.com/datalab-to/marker)**, the incredibly fast and accurate document conversion tool. This version is customized to integrate with a private, high-performance **Qwen 2.5 VL 72B** model hosted on HTX (Home Team Science and Technology Singapore) servers via Amazon SageMaker.
+This is a fork of the original **[marker](https://github.com/datalab-to/marker)**, the incredibly fast and accurate document conversion tool. This version is customized to integrate with a private, high-performance **Qwen 2.5 VL 72B** model hosted on [HTX](https://www.htx.gov.sg/) servers via Amazon SageMaker.
 
 By combining Marker's state-of-the-art layout detection with a powerful, custom-hosted multimodal LLM, this fork unlocks next-level accuracy for even the most complex documents.
 
