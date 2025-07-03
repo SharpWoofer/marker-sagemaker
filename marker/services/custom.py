@@ -32,7 +32,7 @@ class SagemakerService(BaseService):
     endpoint_name: Annotated[
         str,
         "The SageMaker endpoint name to use."
-    ] = "Qwen2-5-VL-72B-Instruct-2025-03-09-10-43-09"
+    ] = "Qwen2-5-VL-72B-Instruct-2025-07-02-11-02-17"
     max_tokens: Annotated[
         int,
         "The maximum number of tokens to use for a single request."
